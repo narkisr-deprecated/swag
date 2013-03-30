@@ -8,6 +8,5 @@
                  [org.clojure/core.incubator "0.1.2"]
                  [org.flatland/useful "0.9.5"]
                  [ring "1.1.8"]]
-
   :exclusions  [org.clojure/clojure] 
   )
