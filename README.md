@@ -1,5 +1,7 @@
 # Swag
 
+[![Build Status](https://travis-ci.org/narkisr/swag.png)](https://travis-ci.org/narkisr/swag)
+
 A DSL for documenting [Compojure](https://github.com/weavejester/compojure) routes using [Swagger](https://developers.helloreverb.com/swagger/) spec, such a spec can be viewed (and invoked) via [Swagger UI](https://github.com/wordnik/swagger-ui).
 
 ## Usage
