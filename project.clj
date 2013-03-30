@@ -1,6 +1,6 @@
 (defproject swag "0.1.0"
-  :description "A DSL for documenting Compojure routes using Swagger"
-  :url ""
+  :description "A DSL for documenting Compojure routes using Swagger spec"
+  :url "https://github.com/narkisr/swag"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.5.1"]
