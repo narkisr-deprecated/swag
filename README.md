@@ -4,7 +4,7 @@ A DSL for documenting [Compojure](https://github.com/weavejester/compojure) rout
 
 ## Usage
 
-For a full blown example see [Celestial](https://github.com/narkisr/celestial) [api](https://github.com/narkisr/celestial/blob/master/src/celestial/api.clj) ns. 
+For a full blown example see [api](https://github.com/narkisr/celestial/blob/master/src/celestial/api.clj) ns under the [Celestial](https://github.com/narkisr/celestial) project.
 
 ## License
 
