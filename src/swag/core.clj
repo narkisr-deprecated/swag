@@ -8,7 +8,7 @@
    [flatland.useful.seq :only (find-first)]
    [clojure.string :only (replace capitalize)]
    [clojure.core.strint :only (<<)]
-   [compojure.core :only (defroutes GET POST context)])
+   [compojure.core :only (defroutes GET POST PUT DELETE context)])
    (:require 
      [compojure.route :as route])) 
 
@@ -79,6 +79,16 @@
   "A swagger enabled POST route."
   [path args desc & body]
   `(swag-verb POST ~path ~args ~desc ~@body))
+
+(defmacro PUT- 
+  "A swagger enabled PUT route."
+  [path args desc & body]
+  `(swag-verb PUT ~path ~args ~desc ~@body))
+
+(defmacro DELETE-
+  "A swagger enabled DELETE route."
+  [path args desc & body]
+  `(swag-verb PUT ~path ~args ~desc ~@body))
 
 (defn combine-apis [_apis]
   "Merges api routes with same paths different verbs"
