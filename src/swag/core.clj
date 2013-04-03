@@ -30,6 +30,16 @@
 
 (defstruct- property :name :type :description)
 
+(defstruct- error :code :reason)
+
+(def ^{:doc "see http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html"}
+  http-codes {:conflict 409 :success 200 :bad-req 400})
+
+(defn errors
+ "A map of errors to swagger errors"
+ [es]
+  (mapv (fn [[k v]] (error- (http-codes k) v)) es))
+
 (def ^{:doc "see https://github.com/wordnik/swagger-core/wiki/Datatypes"}
   primitives #{:byte :boolean :int :long :float :double :string :Date})
 
