@@ -88,7 +88,7 @@
 (defmacro DELETE-
   "A swagger enabled DELETE route."
   [path args desc & body]
-  `(swag-verb PUT ~path ~args ~desc ~@body))
+  `(swag-verb DELETE ~path ~args ~desc ~@body))
 
 (defn combine-apis [_apis]
   "Merges api routes with same paths different verbs"
