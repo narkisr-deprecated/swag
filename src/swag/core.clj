@@ -8,7 +8,7 @@
    [flatland.useful.seq :only (find-first)]
    [clojure.string :only (replace capitalize)]
    [clojure.core.strint :only (<<)]
-   [compojure.core :only (defroutes GET POST PUT DELETE context)])
+   [compojure.core :only (routes defroutes GET POST PUT DELETE context make-route)])
    (:require 
      [compojure.route :as route])) 
 
@@ -118,7 +118,6 @@
      (create-api ~(str name) ~@routes)
      (defroutes ~name ~@routes)))
 
-#_(defmodel :type )
 #_(defroutes- machines {:path "/machine" :description "Operations on machines"}
     (GET- "/machine/:host" [^:string host] 
           {:nickname "getMachine" :summary "gets a machine"}  ())
@@ -126,21 +125,23 @@
            {:nickname "addMachine" :summary "adds a machine"} ())
     (GET- "/machine/:cpu" [^:int cpus] 
           {:nickname "getCpus" :summary "get machines cpus list"} ())  
-    (POST- "/type" [^:string type & ^:type props] {:nickname "addType" :summary "Adds a type"}
+    (POST- "/type" [^:string type & ^:int props] {:nickname "addType" :summary "Adds a type"}
            (identity 1))
     )
 
-(def celetial-listing
-  (resource-listing- "0.1" "1.1" base 
-                     [(bare-api- "/api/jobs" "Job scheduling operations")
-                      (bare-api- "/api/hosts" "Hosts operations")]))
+(defn celetial-listing []
+  (resource-listing- "0.1" "1.1" base (mapv (fn [[k v]] (bare-api- (str "/api/" (name k)) "")) @apis)))
 
-(defroutes api-declerations
-  (GET "/hosts" [] {:body (@apis :hosts)})
-  (GET "/jobs" [] {:body (@apis :jobs)}))
+(defn api-declerations
+  "generates api decleration routes"
+  []
+  (apply routes 
+         (map (fn [[k v]] (make-route :get (str "/api/" (name k)) (fn [_] {:body (@apis k)}))) @apis)))
 
-(defroutes swagger-routes
-  (context "/api" [] api-declerations)
-  (GET "/api-docs.json" [h] {:body celetial-listing})
-  (route/files "/swagger/" {:root (str (System/getProperty "user.dir") "/public/swagger-ui-1.1.7/")}))
+(defn swagger-routes []
+  (routes
+    (api-declerations)
+    (GET "/api-docs.json" [h] {:body (celetial-listing)}) 
+    (route/files "/swagger/" {:root (str (System/getProperty "user.dir") "/public/swagger-ui-1.1.7/")})))
+
 
