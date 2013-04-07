@@ -2,7 +2,7 @@
   (:use 
     clojure.test 
     [compojure.core :only (POST)] 
-    [swag.core :only (defroutes- GET- POST- apis)]
+    [swag.core :only (defroutes- GET- POST- apis type-match)]
     [swag.model :only (defmodel models)] 
     ))
 
@@ -36,3 +36,7 @@
   (let [param (swag-meta (GET- "/machine/" [^:string host ^:type type] {} ()) :operations 0 :parameters 1)]
     (is (= (param :dataType)  "Type")) 
     (is (= (param :paramType) "body"))))
+
+(deftest missing-type
+   (is (thrown? Exception (type-match {:foo true})))
+  )

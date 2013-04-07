@@ -41,31 +41,41 @@
   (mapv (fn [[k v]] (error- (http-codes k) v)) es))
 
 (def ^{:doc "see https://github.com/wordnik/swagger-core/wiki/Datatypes"}
-  primitives #{:byte :boolean :int :long :float :double :string :Date})
+  primitives #{:file :byte :boolean :int :long :float :double :string :Date})
 
 (def ^{:doc "see https://github.com/wordnik/swagger-core/wiki/Datatypes"}
   containers  #{:List :Set :Array})
 
 (def apis (atom {}))
 
-(defn type-match [m]
-     (or 
-       (some-> (find-first (into #{} (keys @models)) (keys m)) name capitalize)
-       (some-> (find-first primitives (keys m)) name)
-       (name (m :dataType))))
+(defn type-match 
+  "Matches a given type agains primitives containers and custom defined types"
+  [m]
+    (or 
+      (some-> (find-first (into #{} (keys @models)) (keys m)) name capitalize)
+      (some-> (find-first primitives (keys m)) name)
+      (some-> (m :dataType) name)
+      (throw (Exception. (str "Failed to find type " m))) 
+      ))
 
-(defn guess-type [path arg]
+(defn guess-type 
+  "Detects param type (both http and object type)."
+  [path arg]
   (let [m (meta arg)]
     {:paramType (or (m :paramType) (if (.contains path (<< ":~(str arg)")) "path" "body"))
      :dataType (type-match m)}))
 
-(defn create-params [path args] 
+(defn create-params 
+  "Creates the parameter list for a given path out of provided args"
+  [path args] 
   (let [defaults (parameter- nil nil nil "String" true nil false) ]
     (mapv 
       #(-> % meta 
            (merge defaults {:name (str %)} (guess-type path %))) (remove #(= % '&) args))))
 
-(defn create-op [desc verb params]
+(defn create-op 
+  "Creates an operation" 
+  [desc verb params]
   (merge (operation-) desc {:parameters params :httpMethod verb}))
 
 (defn swag-path [path]
@@ -105,11 +115,13 @@
   (mapv #(apply merge-with (fn [f s] (if (vector? f) (into [] (concat f s)) f)) %)
         (vals (group-by :path _apis))))
 
-(defn create-api [_name & routes]
+(defn create-api 
+  "Creates the api route"
+  [_name & routes]
   (let [_apis (filterv identity (map meta (rest routes)))]
     (swap! apis assoc (keyword _name) 
-       (api-decleration- "0.1" "1.1" (<< "~{base}api") (<< "/~{_name}") (combine-apis _apis)
-        (into {} (map (fn [[k v]] [(-> k name capitalize) v]) @models))))))
+           (api-decleration- "0.1" "1.1" (<< "~{base}api") (<< "/~{_name}") (combine-apis _apis)
+                             (into {} (map (fn [[k v]] [(-> k name capitalize) v]) @models))))))
 
 (defmacro defroutes-
   "A swagger enabled defroute"
@@ -129,7 +141,9 @@
            (identity 1))
     )
 
-(defn celetial-listing []
+(defn celetial-listing
+  "The swagger api listing (api-docs.json)." 
+  []
   (resource-listing- "0.1" "1.1" base (mapv (fn [[k v]] (bare-api- (str "/api/" (name k)) "")) @apis)))
 
 (defn api-declerations
@@ -138,7 +152,9 @@
   (apply routes 
          (map (fn [[k v]] (make-route :get (str "/api/" (name k)) (fn [_] {:body (@apis k)}))) @apis)))
 
-(defn swagger-routes []
+(defn swagger-routes 
+  "The swagger-routes ready to be include into a compojure app"
+  []
   (routes
     (api-declerations)
     (GET "/api-docs.json" [h] {:body (celetial-listing)}) 
