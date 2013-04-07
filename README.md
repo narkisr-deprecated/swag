@@ -8,6 +8,7 @@ A DSL for documenting [Compojure](https://github.com/weavejester/compojure) rout
 
 For a full blown example see [api](https://github.com/narkisr/celestial/blob/master/src/celestial/api.clj) ns under the [Celestial](https://github.com/narkisr/celestial) project.
 
+See also the API [docs](http://narkisr.github.io/swag/index.html)
 ## License
 
 Copyright © 2013 Ronen Narkis
