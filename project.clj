@@ -9,4 +9,6 @@
                  [org.flatland/useful "0.9.5"]
                  [ring "1.1.8"]]
   :exclusions  [org.clojure/clojure] 
-  )
+
+  :plugins  [[codox "0.6.4"]]
+)
