@@ -10,5 +10,5 @@
                  [ring "1.1.8"]]
   :exclusions  [org.clojure/clojure] 
 
-  :plugins  [[codox "0.6.4"]]
+  :plugins  [[codox "0.6.4"] [lein-tag "0.1.0"]]
 )
