@@ -141,10 +141,10 @@
            (identity 1))
     )
 
-(defn celetial-listing
+(defn listing
   "The swagger api listing (api-docs.json)." 
-  []
-  (resource-listing- "0.1" "1.1" base (mapv (fn [[k v]] (bare-api- (str "/api/" (name k)) "")) @apis)))
+  [version]
+  (resource-listing- version "1.1" base (mapv (fn [[k v]] (bare-api- (str "/api/" (name k)) "")) @apis)))
 
 (defn api-declerations
   "generates api decleration routes"
@@ -154,10 +154,10 @@
 
 (defn swagger-routes 
   "The swagger-routes ready to be include into a compojure app"
-  []
+  [version]
   (routes
     (api-declerations)
-    (GET "/api-docs.json" [h] {:body (celetial-listing)}) 
+    (GET "/api-docs.json" [h] {:body (listing version)}) 
     (route/files "/swagger/" {:root (str (System/getProperty "user.dir") "/public/swagger-ui-1.1.7/")})))
 
 
