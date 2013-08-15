@@ -6,9 +6,13 @@ A DSL for documenting [Compojure](https://github.com/weavejester/compojure) rout
 
 ## Usage
 
+```clojure
+[swag "0.2.2"]
+```
+
 See the example folder in this project
 
-See also:
+For docs see:
 
  * API [docs](http://narkisr.github.io/swag/index.html)
  * Swagger spec [wiki](https://github.com/wordnik/swagger-core/wiki)
