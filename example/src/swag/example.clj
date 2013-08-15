@@ -35,7 +35,6 @@
            {:status 200 :body (str "got id " id)}))
 
 (defn app []
-  "The api routes, secured? will enabled authentication"
   (-> 
     ; note the swagger routes version nubmer
     (routes (swagger-routes "0.0.1") actions (route/not-found "Not Found"))
