@@ -6,9 +6,13 @@ A DSL for documenting [Compojure](https://github.com/weavejester/compojure) rout
 
 ## Usage
 
-For a full blown example see [api](https://github.com/narkisr/celestial/blob/master/src/celestial/api.clj) ns under the [Celestial](https://github.com/narkisr/celestial) project.
+See the example folder in this project
 
-See also the API [docs](http://narkisr.github.io/swag/index.html)
+See also:
+
+ * API [docs](http://narkisr.github.io/swag/index.html)
+ * Swagger spec [wiki](https://github.com/wordnik/swagger-core/wiki)
+
 ## License
 
 Copyright © 2013 Ronen Narkis
