@@ -10,7 +10,27 @@ A DSL for documenting [Compojure](https://github.com/weavejester/compojure) rout
 [swag "0.2.2"]
 ```
 
-See the example folder in this project
+```clojure
+
+; custom data types https://github.com/wordnik/swagger-core/wiki/Datatypes
+
+(defmodel action :operates-on :string :src :string :actions {:type "Actions"})
+
+(defroutes- actions {:path "/actions" :description "Adhoc actions managment"}
+
+  ; here we use the custom action model (the model schema will reflect that).
+  (POST- "/action" [& ^:action action] {:nickname "addActions" :summary "Adds an actions set"}
+         {:status 200 :body (str "got action " action)})
+
+  ;; ...
+
+  ; note the use of :errorResponses
+  (DELETE- "/action/:id" [^:int id] {:nickname "deleteActions" :summary "Deletes an action set" :errorResponses (errors {:bad-req "Missing action"})}
+        {:status 200 :body (str "got id " id)}))
+
+```
+
+For the full example see the example folder in this project
 
 For docs see:
 
