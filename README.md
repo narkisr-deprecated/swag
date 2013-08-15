@@ -4,6 +4,8 @@
 
 A DSL for documenting [Compojure](https://github.com/weavejester/compojure) routes using [Swagger](https://developers.helloreverb.com/swagger/) spec, such a spec can be viewed (and invoked) via [Swagger UI](https://github.com/wordnik/swagger-ui).
 
+The DSL only wraps Compojure and does not change the semantics of destructing or any other feature.
+
 ## Usage
 
 ```clojure
