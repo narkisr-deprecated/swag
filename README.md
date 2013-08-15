@@ -10,6 +10,8 @@ A DSL for documenting [Compojure](https://github.com/weavejester/compojure) rout
 [swag "0.2.2"]
 ```
 
+Example (see example folder for complete listing):
+
 ```clojure
 
 ; custom data types https://github.com/wordnik/swagger-core/wiki/Datatypes
@@ -25,12 +27,11 @@ A DSL for documenting [Compojure](https://github.com/weavejester/compojure) rout
   ;; ...
 
   ; note the use of :errorResponses
-  (DELETE- "/action/:id" [^:int id] {:nickname "deleteActions" :summary "Deletes an action set" :errorResponses (errors {:bad-req "Missing action"})}
+  (DELETE- "/action/:id" [^:int id] {:nickname "deleteActions" :summary "Deletes an action set" 
+                                     :errorResponses (errors {:bad-req "Missing action"})}
         {:status 200 :body (str "got id " id)}))
 
 ```
-
-For the full example see the example folder in this project
 
 For docs see:
 
