@@ -4,7 +4,6 @@
 
 A DSL for documenting [Compojure](https://github.com/weavejester/compojure) routes using [Swagger](https://developers.helloreverb.com/swagger/) spec, such a spec can be viewed (and invoked) via [Swagger UI](https://github.com/wordnik/swagger-ui).
 
-The DSL only wraps Compojure and does not change the semantics of destructing or any other feature.
 
 ## Usage
 
@@ -39,6 +38,26 @@ For docs see:
 
  * API [docs](http://narkisr.github.io/swag/index.html)
  * Swagger spec [wiki](https://github.com/wordnik/swagger-core/wiki)
+
+## Limitations
+
+ * The DSL wraps Compojure and supports vector based destructing:
+
+```clojure
+ 
+  ; will not work because swag expects a vector of args with metadata types
+  [:as {{id :id} :params}]
+
+  ; however the folloing is compatible 
+  [^:int id]
+  
+  ; will also work
+  [& :sometype foo]
+ 
+```
+
+ * Parameter [attributes](https://github.com/wordnik/swagger-core/wiki/parameters) aren't supported yet this will be resolved in next release.
+
 
 ## License
 
