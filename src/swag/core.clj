@@ -14,7 +14,10 @@
 
 (def base (atom nil))
 
-(defn set-base [b] (reset! base b))
+(defn set-base 
+  "Sets API base path"
+  [b]
+  (reset! base b))
 
 (defstruct- resource-listing :apiVersion :swaggerVersion :apis)
 
