@@ -12,13 +12,13 @@
    (:require 
      [compojure.route :as route])) 
 
-(def ^:dynamic base "http://localhost:8082/")
+(def ^:dynamic base "http://localhost:8080/")
 
-(defstruct- base-swag :apiVersion :swaggerVersion :basepath)
+(defstruct- base-swag :apiVersion :swaggerVersion :basePath)
 
-(defstruct- resource-listing :apiVersion :swaggerVersion :basepath :apis)
+(defstruct- resource-listing :apiVersion :swaggerVersion :basePath :apis)
 
-(defstruct- api-decleration  :apiVersion :swaggerVersion :basepath :resourcePath :apis :models)
+(defstruct- api-decleration  :apiVersion :swaggerVersion :basePath :resourcePath :apis :models)
 
 (defstruct- bare-api :path :description)
 
