@@ -12,9 +12,9 @@
    (:require 
      [compojure.route :as route])) 
 
-(def ^:dynamic base "http://localhost:8080/")
+(def base (atom nil))
 
-(defstruct- base-swag :apiVersion :swaggerVersion :basePath)
+(defmacro set-base [b] `(reset! swag.core/base ~b))
 
 (defstruct- resource-listing :apiVersion :swaggerVersion :apis)
 
@@ -119,9 +119,10 @@
   "Creates the api route"
   [_name & routes]
   (let [_apis (filterv identity (map meta (rest routes)))]
+    (when-not @base (throw (Exception. "please set-base before using defroutes-")))
     (swap! apis assoc (keyword _name) 
-           (api-decleration- "0.1" "1.1" (<< "~{base}api") (<< "/~{_name}") (combine-apis _apis)
-                             (into {} (map (fn [[k v]] [(-> k name capitalize) v]) @models))))))
+        (api-decleration- "0.1" "1.1" @base (<< "/~{_name}") (combine-apis _apis)
+            (into {} (map (fn [[k v]] [(-> k name capitalize) v]) @models))))))
 
 (defmacro defroutes-
   "A swagger enabled defroute"

@@ -2,10 +2,11 @@
   (:use 
     clojure.test 
     [compojure.core :only (POST)] 
-    [swag.core :only (defroutes- GET- POST- apis type-match)]
+    [swag.core :only (defroutes- GET- POST- apis type-match set-base)]
     [swag.model :only (defmodel models)] 
     ))
 
+(set-base "http://localhost:8080")
 (defn swag-meta [r & ks] (-> r meta (get-in ks)))
 
 (deftest half-way-doc 

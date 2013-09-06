@@ -1,6 +1,6 @@
 (ns swag.example
   (:require 
-    [swag.core :refer (swagger-routes GET- POST- PUT- DELETE- defroutes- errors)]
+    [swag.core :refer (swagger-routes GET- POST- PUT- DELETE- defroutes- errors set-base)]
     [swag.model :refer (defmodel wrap-swag defv defc)]
     [ring.middleware [multipart-params :as mp] ]
     [compojure.handler :as handler :refer (site)]
@@ -8,6 +8,8 @@
     [compojure.core :refer (defroutes routes)] 
     [ring.adapter.jetty :refer (run-jetty)] 
     [compojure.route :as route]))
+
+(set-base "http://localhost:8080")
 
 ; defining custom data types for more info please visit https://github.com/wordnik/swagger-core/wiki/Datatypes
 (defmodel ccontainer :capistrano {:type "Capistrano"})
