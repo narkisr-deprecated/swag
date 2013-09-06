@@ -14,7 +14,7 @@
 
 (def base (atom nil))
 
-(defmacro set-base [b] `(reset! swag.core/base ~b))
+(defn set-base [b] (reset! base b))
 
 (defstruct- resource-listing :apiVersion :swaggerVersion :apis)
 
