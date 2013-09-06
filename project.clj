@@ -1,4 +1,4 @@
-(defproject swag "0.2.3"
+(defproject swag "0.2.4"
   :description "A DSL for documenting Compojure routes using Swagger spec"
   :url "https://github.com/narkisr/swag"
   :license {:name "Eclipse Public License"

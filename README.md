@@ -8,7 +8,7 @@ A DSL for documenting [Compojure](https://github.com/weavejester/compojure) rout
 ## Usage
 
 ```clojure
-[swag "0.2.3"]
+[swag "0.2.4"]
 ```
 
 Example (see example folder for complete listing):
