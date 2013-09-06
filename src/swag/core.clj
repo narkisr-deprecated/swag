@@ -16,7 +16,7 @@
 
 (defstruct- base-swag :apiVersion :swaggerVersion :basePath)
 
-(defstruct- resource-listing :apiVersion :swaggerVersion :basePath :apis)
+(defstruct- resource-listing :apiVersion :swaggerVersion :apis)
 
 (defstruct- api-decleration  :apiVersion :swaggerVersion :basePath :resourcePath :apis :models)
 
@@ -130,21 +130,10 @@
      (create-api ~(str name) ~@routes)
      (defroutes ~name ~@routes)))
 
-#_(defroutes- machines {:path "/machine" :description "Operations on machines"}
-    (GET- "/machine/:host" [^:string host] 
-          {:nickname "getMachine" :summary "gets a machine"}  ())
-    (POST- "/machine/:host" [^:string host] 
-           {:nickname "addMachine" :summary "adds a machine"} ())
-    (GET- "/machine/:cpu" [^:int cpus] 
-          {:nickname "getCpus" :summary "get machines cpus list"} ())  
-    (POST- "/type" [^:string type & ^:int props] {:nickname "addType" :summary "Adds a type"}
-           (identity 1))
-    )
-
 (defn listing
   "The swagger api listing (api-docs.json)." 
   [version]
-  (resource-listing- version "1.1" base (mapv (fn [[k v]] (bare-api- (str "/api/" (name k)) "")) @apis)))
+  (resource-listing- version "1.1" (mapv (fn [[k v]] (bare-api- (str "/api/" (name k)) "")) @apis)))
 
 (defn api-declerations
   "generates api decleration routes"
