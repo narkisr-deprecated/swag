@@ -50,7 +50,7 @@ For docs see:
   ; will not work because swag expects a vector of args with metadata types
   [:as {{id :id} :params}]
 
-  ; however the folloing is compatible 
+  ; however the following is compatible 
   [^:int id]
   
   ; will also work
