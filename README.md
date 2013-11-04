@@ -19,8 +19,6 @@ Example (see example folder for complete listing):
 
 (defmodel action :operates-on :string :src :string :actions {:type "Actions"})
 
-(set-base "http://localhost:8080")
-
 (defroutes- actions {:path "/actions" :description "Adhoc actions managment"}
 
   ; here we use the custom action model (the model schema will reflect that).
