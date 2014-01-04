@@ -11,11 +11,19 @@
 
   :exclusions  [org.clojure/clojure] 
 
-  :plugins  [[codox "0.6.4"] [lein-tag "0.1.0"] [lein-midje "3.1.1"]]
+  :plugins  [[codox "0.6.4"] [lein-tag "0.1.0"] [lein-midje "3.1.1"] [lein-set-version "0.3.0"]]
 
   :profiles {
-    :dev {:dependencies [[midje "1.6.0"]]}          
-  }
+    :dev {
+       :dependencies [[midje "1.6.0"]]
+          
+       :set-version {
+          :updates [
+            {:path "README.md" :search-regex #"\"\d+\.\d+\.\d+\""}]
+       }
+     }
+  }          
+  
 
   :aliases {
       "runtest"  ["midje" ":filter" "-integration"]
