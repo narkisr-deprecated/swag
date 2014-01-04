@@ -8,7 +8,16 @@
                  [org.clojure/core.incubator "0.1.2"]
                  [org.flatland/useful "0.9.5"]
                  [ring "1.1.8"]]
+
   :exclusions  [org.clojure/clojure] 
 
-  :plugins  [[codox "0.6.4"] [lein-tag "0.1.0"]]
+  :plugins  [[codox "0.6.4"] [lein-tag "0.1.0"] [lein-midje "3.1.1"]]
+
+  :profiles {
+    :dev {:dependencies [[midje "1.6.0"]]}          
+  }
+
+  :aliases {
+      "runtest"  ["midje" ":filter" "-integration"]
+   }
 )
