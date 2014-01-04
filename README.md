@@ -34,6 +34,12 @@ Example (see example folder for complete listing):
 
 ```
 
+Defining conversions:
+
+```clojure
+; Any /actions route will have its params :type field converted to a keyword (v is an implicit params value)
+(defc "/actions" [:type] (keyword v))
+```
 For docs see:
 
  * API [docs](http://narkisr.github.io/swag/index.html)
