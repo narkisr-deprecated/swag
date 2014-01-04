@@ -11,7 +11,7 @@
 
   :exclusions  [org.clojure/clojure] 
 
-  :plugins  [[codox "0.6.4"] [lein-tag "0.1.0"] [lein-midje "3.1.1"] [lein-set-version "0.3.0"]]
+  :plugins  [[codox "0.6.6"] [lein-tag "0.1.0"] [lein-midje "3.1.1"] [lein-set-version "0.3.0"]]
 
   :profiles {
     :dev {
