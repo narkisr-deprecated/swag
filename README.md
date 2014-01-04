@@ -36,12 +36,11 @@ Routes are decorated compojure routes:
   (DELETE- "/action/:id" [^:int id] {:nickname "deleteActions" :summary "Deletes an action set" 
                                      :errorResponses (errors {:bad-req "Missing action"})}
         {:status 200 :body (str "got id " id)}))
-
 ```
 
 ### Conversions:
 
-Conversions can be defined on routes, in this case /actions routes will have thier :type parameter field converted to a keyword (v is an implicit params value passed to the conversion function):
+Conversions can be defined on a group of routes, in this case all /actions routes that accept a composit object with a :type field will get it converted to a keyword (v is an implicit params value passed to the conversion function):
 
 ```clojure
 (defc "/actions" [:type] (keyword v))
