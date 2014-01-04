@@ -28,37 +28,30 @@
      (def ~name (model- ~(-> name str capitalize) (nest-types (hash-map ~@props))))
      (add-model ~(keyword name) ~name)))
 
-(def ^{:doc "applied validations path -> fn"} validations (atom {}))
-
-(defmacro defv
-  "Defines a model validation v (value) passed implicitly."
-  [path f]
-  `(swap! validations assoc ~path (fn [~'v] ~f)))
 
 (def ^{:doc "applied conversion path -> fn"} conversions (atom {}))
 
 (defmacro defc
   "Defines a model conversion v (value) passed implicitly."
-  [path f]
-   `(swap! conversions assoc ~path (fn [~'v] ~f)))
+  [uri path f]
+   `(swap! conversions (fn [m#] (update-in m# [~uri] merge {~path (fn [~'v] ~f)}))))
 
-(defn process
-  "Process a list of params, runs validations and then conversions"
-  [params]
-    (doseq [[k f] @validations] (when-let [v (get-in params k)] (f v)))
+(defn convert
+  "Process a list of params running conversions"
+  [uri params]
     (reduce 
       (fn [r [path c]]
         (if-let [v (get-in r path)] 
-          (update-in r path c) r)) params @conversions)
+          (update-in r path c) r)) params (@conversions uri))
     )
 
 (defn wrap-swag 
   "A ring middleware that utilizes swagger metadata on passed in requests, it runs validations and conversions according to ones defined using swag.model"
   [app]
-  (fn [{:keys [params] :as req}]
+  (fn [{:keys [params uri] :as req}]
     (if params 
       (try 
-         (app (assoc req :params (process params)))
+         (app (assoc req :params (convert uri params)))
         (catch ExceptionInfo e 
           (if (= (-> e (.data) :error) :validation)
            {:body  (.getMessage e) :status 400}

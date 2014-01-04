@@ -1,12 +1,11 @@
 (ns swag.test.core
-  (:use 
-    clojure.test 
-    [compojure.core :only (POST)] 
-    [swag.core :only (defroutes- GET- POST- apis type-match set-base)]
-    [swag.model :only (defmodel models)] 
-    ))
+  (:refer-clojure :exclude  [name type])
+  (:require
+    [compojure.core :refer (POST)] 
+    [swag.core :refer (defroutes- GET- POST- apis type-match set-base)]
+    [swag.model :refer (defmodel models conversions defc convert)] )
+  (:use midje.sweet))
 
-(set-base "http://localhost:8080")
 (defn swag-meta [r & ks] (-> r meta (get-in ks)))
 
 (fact "half way doc"
@@ -35,9 +34,15 @@
 
 (fact "using model"
   (let [param (swag-meta (GET- "/machine/" [^:string host ^:type type] {} ()) :operations 0 :parameters 1)]
-    (is (= (param :dataType)  "Type")) 
-    (is (= (param :paramType) "body"))))
+    (param :dataType) =>  "Type" 
+    (param :paramType) => "body"))
 
-(deftest missing-type
-   (is (thrown? Exception (type-match {:foo true})))
-  )
+(fact "missing type"
+   (type-match {:foo true}) => (throws Exception))
+
+(fact "conversion mapping"
+   (defc "/machine" [:type] (keyword v))   
+   (@conversions "/machine")  => (just {[:type] fn?}) 
+   (convert "/machine" {:type "foo"}) => {:type :foo}
+      )
+
