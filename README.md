@@ -11,14 +11,19 @@ A DSL for documenting [Compojure](https://github.com/weavejester/compojure) rout
 [swag "0.2.5"]
 ```
 
-Example (see example folder for complete listing):
+
+### Model and routes
+
+Models are composits custom data types passed into routes:
 
 ```clojure
-
 ; custom data types https://github.com/wordnik/swagger-core/wiki/Datatypes
-
 (defmodel action :operates-on :string :src :string :actions {:type "Actions"})
+```
 
+Routes are decorated compojure routes:
+
+```clojure
 (defroutes- actions {:path "/actions" :description "Adhoc actions managment"}
 
   ; here we use the custom action model (the model schema will reflect that).
@@ -34,10 +39,11 @@ Example (see example folder for complete listing):
 
 ```
 
-Defining conversions:
+### Conversions:
+
+Conversions can be defined on routes, in this case /actions routes will have thier :type parameter field converted to a keyword (v is an implicit params value passed to the conversion function):
 
 ```clojure
-; Any /actions route will have its params :type field converted to a keyword (v is an implicit params value)
 (defc "/actions" [:type] (keyword v))
 ```
 For docs see:
