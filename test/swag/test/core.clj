@@ -17,11 +17,13 @@
 
 (fact "manual params"
   (defroutes- machines {}
-    (GET- "/machine/" [^{:paramType "query" :dataType "String"} host] {:nickname "getMachine" :summary "gets a machine"}  
+    (GET- "/machine/" [^{:paramType "query" :dataType "String" :required false} host]
+      {:nickname "getMachine" :summary "gets a machine"}
           ()))
   (let [param (get-in @apis [:machines :apis 0  :operations 0 :parameters 0])]
     (param :dataType) => "String" 
-    (param :paramType) => "query") 
+    (param :paramType) => "query"
+    (param :required) => false)
   )
 
 (fact "auto param type guessing"
