@@ -71,10 +71,12 @@
 (defn create-params 
   "Creates the parameter list for a given path out of provided args"
   [path args] 
-  (let [defaults (parameter- nil nil nil "String" true nil false) ]
-    (mapv 
-      #(-> % meta 
-           (merge defaults {:name (str %)} (guess-type path %))) (remove #(= % '&) args))))
+  (let [defaults (parameter- nil nil nil "String" true nil false)
+        filtered-args (remove #(= % '&) args)]
+    (mapv
+      (fn [x]
+         (merge defaults {:name (str x)} (guess-type path x) (meta x)))
+      filtered-args)))
 
 (defn create-op 
   "Creates an operation" 
