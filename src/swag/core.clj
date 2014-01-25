@@ -73,10 +73,8 @@
   [path args] 
   (let [defaults (parameter- nil nil nil "String" true nil false)
         filtered-args (remove #(= % '&) args)]
-    (mapv
-      (fn [x]
-         (merge defaults {:name (str x)} (guess-type path x) (meta x)))
-      filtered-args)))
+    (mapv 
+      (fn [a] (merge defaults {:name (str a)} (guess-type path a) (meta a))) filtered-args)))
 
 (defn create-op 
   "Creates an operation" 
