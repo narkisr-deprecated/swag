@@ -46,5 +46,6 @@
    (defc "/machine" [:type] (keyword v))   
    (@conversions "/machine")  => (just {[:type] fn?}) 
    (convert "/machine" {:type "foo"}) => {:type :foo}
+   (convert "/machine/1" {:type "foo"}) => {:type :foo}
       )
 

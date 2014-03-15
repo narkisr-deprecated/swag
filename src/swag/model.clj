@@ -37,12 +37,16 @@
    `(swap! conversions (fn [m#] (update-in m# [~uri] merge {~path (fn [~'v] ~f)}))))
 
 (defn convert
-  "Process a list of params running conversions"
+  "Process a list of params running registered conversions
+   registered conversions use base-uri -> conversion mappings:
+    /foo/1 base uri is /foo 
+  "
   [uri params]
-    (reduce 
+    (let [i (.indexOf uri "/" 1) base-uri (if (= i -1) uri (.substring uri 0 i))]
+      (reduce 
       (fn [r [path c]]
         (if-let [v (get-in r path)] 
-          (update-in r path c) r)) params (@conversions uri))
+          (update-in r path c) r)) params (@conversions base-uri)))
     )
 
 (defn wrap-swag 
